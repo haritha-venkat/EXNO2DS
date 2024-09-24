@@ -1,11 +1,6 @@
-
-## NAME: HARITHA SHREE 
-## REG NO: 212222230046
-
-
-# EX NO:2
+# EX.NO:02
 # AIM:
-      To perform Exploratory Data Analysis on the given data set.
+  To perform Exploratory Data Analysis on the given data set.
       
 # EXPLANATION:
   The primary aim with exploratory analysis is to examine the data for distribution, outliers and anomalies to direct specific testing of your hypothesis.
@@ -28,91 +23,116 @@ STEP 7: Use cross tabulation method to quantitatively analyze the relationship b
 STEP 8: Use heatmap method of representation to show relationships between two variables, one plotted on each axis.
 
 ## CODING AND OUTPUT
-```python
-import pandas as pd     
-import numpy as np     
-import matplotlib.pyplot as plt     
-import seaborn as sns       
-df=pd.read_csv("titanic_dataset.csv")   
-df
+```py
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+dt=pd.read_csv("titanic_dataset.csv")
+dt
 ```
-![image](https://github.com/user-attachments/assets/4e5902ed-1a7f-4152-b0bf-58547b6d859f)
+![1](https://github.com/user-attachments/assets/9d92a908-65c8-47ef-9f48-6595a7d4acf9)
 
-df.info()    
-![image](https://github.com/user-attachments/assets/b91ebc8e-ea21-47c8-bca5-ae6c18ae76ff)
+```py
+dt.info()
+```
+![2](https://github.com/user-attachments/assets/3d313d08-5f80-4445-a927-4cf2a50ef4fc)
 
-df.shape     
-![image](https://github.com/user-attachments/assets/f780cd52-9ca9-46c2-b335-6c2a0c71f48e)
+```py
+dt.shape
+```
+ (891, 12)
 
-df.set_index("PassengerId",inplace=True)     
-df.describe()     
-![image](https://github.com/user-attachments/assets/1e5a0c0a-777c-42b3-ba23-181b09dc8790)
+```py
+dt.set_index("PassengerId",inplace=True)
+dt
+```
+![3](https://github.com/user-attachments/assets/15a03ff3-1586-4def-89b6-feedc7cd7746)
 
-df.shape     
-![image](https://github.com/user-attachments/assets/60628c0d-1daf-4b9a-895c-3399caf413f1)
+```py
+dt.describe()
+```
+![4](https://github.com/user-attachments/assets/82b97d40-4a6b-4aee-905f-2c21befea26e)
 
-CATEGORICAL DATA ANALYSIS     
+```py
+dt.nunique()
+```
+![5](https://github.com/user-attachments/assets/5aae50ea-65d5-4402-a212-c7689f10db6d)
 
-df.nunique()     
-![image](https://github.com/user-attachments/assets/043f595d-99e5-4326-bde6-b166c21df129)
+```py
+dt["Survived"].value_counts()
+```
+![6](https://github.com/user-attachments/assets/c3e1d03b-9550-4dd5-b1b2-6f7c3add3a15)
 
-df["Survived"].value_counts()     
-![image](https://github.com/user-attachments/assets/b24894f7-be94-42a3-8435-5cd834436f7a)
+```py
+per=(dt["Survived"].value_counts()/dt.shape[0]*100).round(2)
+per
+```
+![7](https://github.com/user-attachments/assets/0c5af530-b92e-4115-afc9-7077e99f7ce3)
 
- per=(df["Survived"].value_counts()/df.shape[0]*100).round(2)    
- per       
-![image](https://github.com/user-attachments/assets/5c085b9f-accc-409e-baeb-a482bb63afbe)
+```py
+sns.countplot(data=dt,x="Survived")
+```
+![image](https://github.com/user-attachments/assets/48e8743c-4fe4-41a5-a292-2ffbafb9c2b7)
 
- sns.countplot(data=df,x="Survived")     
- ![image](https://github.com/user-attachments/assets/d8947426-a581-441e-b9de-b76c2c39e4f8)
+```py
+dt.Pclass.unique()
+```
+array([3, 1, 2])
 
-df      
-![image](https://github.com/user-attachments/assets/f429896b-0c6c-45bd-ace8-d8c09aa4b19c)
+```py
+dt.rename(columns={"Sex":"Gender"},inplace=True)
+dt
+```
+![8](https://github.com/user-attachments/assets/94ddbc2b-adf6-4123-9ccb-80dee2361a41)
 
-df.Pclass.unique()     
-![image](https://github.com/user-attachments/assets/20e526cc-2a5f-403a-bb92-64057e058425)
+```py
+sns.catplot(x="Gender",col="Survived",kind="count",data=dt,height=5,aspect=.7)
+```
+![image](https://github.com/user-attachments/assets/e5849b5a-6d9c-481c-a236-55ba69148749)
 
-df.rename(columns={'Sex':'Gender'},inplace=True)     
- df      
-![image](https://github.com/user-attachments/assets/589b0f46-4153-4357-a883-8d6884c95fe4)
+```py
+sns.catplot(x="Survived",hue="Gender",data=dt,kind="count")
+```
+![image](https://github.com/user-attachments/assets/9873b906-bf45-4db7-9dbd-f95a3ea885b5)
 
-BIVARIATE ANALYSIS         
+```py
+dt.boxplot(column="Age", by="Survived")
+```
+![image](https://github.com/user-attachments/assets/8b407bf1-ba8a-4f4b-974f-d5f8225ed3c2)
 
-sns.catplot(x="Gender",col="Survived",kind="count",data=df,height=5,aspect=.7)     
-![image](https://github.com/user-attachments/assets/d15d5751-0b4e-439d-ab00-99bca2bc383e)
+```py
+sns.scatterplot(x=dt["Age"],y=dt["Fare"])
+```
+![image](https://github.com/user-attachments/assets/6355d284-029b-4365-939a-6d7b71f47e74)
 
-sns.catplot(x="Survived",hue="Gender",data=df,kind="count")      
-![image](https://github.com/user-attachments/assets/9d661147-bf09-461d-88f6-91909bc8aafe)
+```py
+sns.jointplot(x=dt["Age"],y=dt["Fare"])
+```
+![image](https://github.com/user-attachments/assets/9ebe95fb-c6c7-432b-a0c1-9a1e23a29377)
 
- df.boxplot(column="Age",by="Survived")      
-![image](https://github.com/user-attachments/assets/af7fbe33-a3b8-4b8e-b99c-0c1da1d3fe71)
+```py
+fig, ax1= plt.subplots(figsize=(8,5))
+pt = sns.boxplot(ax=ax1, x = 'Pclass', y= 'Age',hue = 'Gender', data = dt)
+```
+![image](https://github.com/user-attachments/assets/07156353-a47d-4406-b0ef-96e6f4480c84)
 
- sns.scatterplot(x=df["Age"],y=df["Fare"])      
-![image](https://github.com/user-attachments/assets/e8122354-b7bc-471d-9db8-b144221ceeb0)
+```py
+sns.catplot(data=dt,col="Survived",x="Gender",hue="Pclass",kind="count")
+```
+![image](https://github.com/user-attachments/assets/e2970cd9-f690-40e0-8e9e-7a203a455151)
 
- sns.jointplot(x="Age",y="Fare",data=df)      
-![image](https://github.com/user-attachments/assets/addb1864-2c00-41b2-b9fd-d03f576c11c5)
+```py
+numeric_dt = dt.select_dtypes(include=['number'])
+corr = numeric_dt.corr()
+sns.heatmap(corr,annot=True)
+```
+![image](https://github.com/user-attachments/assets/289f7bd5-c020-4853-b420-e4fd422d7191)
 
-MULTIVARIATE ANALYSIS      
-
- fig, ax1 = plt.subplots(figsize=(8,5))       
- plt = sns.boxplot(ax=ax1,x='Pclass',y='Age',hue='Gender',data=df)       
-![image](https://github.com/user-attachments/assets/3eec1d4e-90c2-4f5a-8fdd-42f2e5fa0e1b)
-
- sns.catplot(data=df,col="Survived",x="Gender",hue="Pclass",kind="count")       
-![image](https://github.com/user-attachments/assets/65b6c4a6-f6b3-4a48-b20c-78180d59a6b9)
-
-CO-RELATION     
-
- corr=df.corr()       
- sns.heatmap(corr,annot=True)      
-![image](https://github.com/user-attachments/assets/6659ad9a-9cee-4e62-bdc9-cbb564b22dc9)
-
-sns.pairplot(df)      
-![image](https://github.com/user-attachments/assets/7d9e6a78-cb25-4461-832f-f6b9e6e02cd0)
-
-
-
+```py
+sns.pairplot(dt)
+```
+![image](https://github.com/user-attachments/assets/b026edcd-a362-43be-9155-57aa00c2aaa3)
 
 # RESULT
-       We have performed Exploratory Data Analysis on the given data set successfully
+  Thus the Exploratory Data Analysis has been successfully performed  on the given data set.
